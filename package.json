@@ -1,0 +1,23 @@
+{
+  "name": "FaceInnerApp",
+  "version": "0.0.2",
+  "private": false,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "15.3.2",
+    "react-native": "0.34.1",
+    "react-native-baidu-map": "^0.4.3",
+    "react-native-code-push": "^1.16.0-beta",
+    "react-native-pull": "^1.1.2",
+    "react-native-radio-button": "^1.0.2",
+    "react-native-root-toast": "^1.0.3",
+    "react-native-storage": "^0.1.4",
+    "react-native-swipeout": "^2.0.12",
+    "react-native-swiper": "^1.5.4",
+    "react-native-tab-navigator": "^0.3.2",
+    "react-native-vector-icons": "^2.1.0",
+    "redux": "^3.6.0"
+  }
+}
