@@ -81,6 +81,53 @@ export default class UserInfo extends Component {
     }
 
 
+    componentDidMount(){
+        // 读取用户名
+
+        storage.load({
+            key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
+        }).then(ret => {
+            // 如果找到数据，则在then方法中返回
+            var id = ret.userId;
+            var data = {
+                menus: {
+                    sectionID_1:[
+                        { id: "id",type:INPUT_TYPE_NONE, name: "ID编号", color:"#666666", icon: "bookmark", value: id },
+                    ],
+                    sectionID_2:[
+                        {id: "nickname",type:INPUT_TYPE_TEXT, name: "昵称", color:"#850C70", icon: "user", value:  ret.nickname },
+                        {id: "integral",type:INPUT_TYPE_NONE, name: "积分", color:"#F78F1E", icon: "star", value:"0 分" },
+                    ],
+                        sectionID_3:[
+                        {id: "sex",type:INPUT_TYPE_SEXS, name: "性别", color:"#666666", icon: "magnet", value:"男" },
+                        {id: "address",type:INPUT_TYPE_AREA, name: "地区", color:"#A6A6A6", icon: "map-marker", value: "四川 成都"},
+                        {id: "underwrite",type:INPUT_TYPE_TEXT, name: "个性签名", color:"#009AC8", icon: "edit", value: "我的地盘怎么会有你"},
+                    ]
+
+                }
+            };
+            this.setState(data);
+
+        }).catch(err => { // 如果没有找到数据且没有sync方法，或者有其他异常，则在catch中返回
+
+            console.warn(err.message);
+            switch (err.name) {
+                case 'NotFoundError':
+                    // TODO;
+                    break;
+                case 'ExpiredError':
+                    // TODO
+                    break;
+            }
+        })
+
+    }
+
+
+
+
+
+
     _onGoMenu(that,rowData){
         var navigator = this.props.navigator;
 
@@ -105,9 +152,6 @@ export default class UserInfo extends Component {
                 }
             });
         }
-
-
-
     }
 
 

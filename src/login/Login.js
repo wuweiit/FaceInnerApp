@@ -37,7 +37,19 @@ export default class Login extends Component {
 
     _onLogin(){
         var that = this;
+        var navigator = that.props.navigator;
         console.log("=======login========");
+
+        if(that.state.username  == null || "" == that.state.username){
+            ToastAndroid.show('请输入用户名!', ToastAndroid.SHORT);
+            return;
+        }
+        if(that.state.password == null || "" == that.state.password){
+            ToastAndroid.show('请输入密码!', ToastAndroid.SHORT);
+            return;
+        }
+
+
 
 
         var url = host + '/api/user/login.do';
@@ -50,21 +62,19 @@ export default class Login extends Component {
             if(res.status == 0){
                 ToastAndroid.show('登录成功!', ToastAndroid.SHORT);
 
-
-
+                console.log(res);
 
                 // 保存Token
                 storage.save({
                     key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
                     rawData: {
-                        token: 'some other site',
-                        userId: 'some userid',
+                        token: res.data.token,
+                        userId: res.data.id,
+                        nickname: res.data.nickname,
+                        name: res.data.name,
                     }
                 });
 
-
-
-                var navigator = this.props.navigator;
                 navigator.push({
                     title: 'UserCenter',
                     component: UserCenter,

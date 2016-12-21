@@ -22,7 +22,6 @@ import {
 
 import {PullList} from 'react-native-pull';
 
-import Config from '../conifg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 var {height, width} = Dimensions.get('window');
@@ -36,6 +35,7 @@ import FeedBack from  '../user/FeedBack';
 import UserInfo from  '../user/UserInfo';
 import HomeCenter from  '../shopcar/HomeCenter';
 
+import Config from  '../conifg';
 
 
 
@@ -51,8 +51,27 @@ export default class UserCenter extends Component {
 
 
     componentDidMount(){
+        // 读取用户名
 
+        storage.load({
+            key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
+        }).then(ret => {
+            // 如果找到数据，则在then方法中返回
+            console.log(ret);
+            this.setState(ret);
 
+        }).catch(err => { // 如果没有找到数据且没有sync方法，或者有其他异常，则在catch中返回
+
+            console.warn(err.message);
+            switch (err.name) {
+                case 'NotFoundError':
+                    // TODO;
+                    break;
+                case 'ExpiredError':
+                    // TODO
+                    break;
+            }
+        })
 
     }
 
@@ -103,7 +122,7 @@ export default class UserCenter extends Component {
                                   onPress={this._onPressUserInfo.bind(this)}>
                     <Image style={styles.userhead} source={require('../../img/ac.png')}></Image>
                     <View style={styles.username}>
-                        <Text style={styles.usernameText}>marker</Text>
+                        <Text style={styles.usernameText}>{this.state.nickname}</Text>
                     </View>
                 </TouchableOpacity>
 
