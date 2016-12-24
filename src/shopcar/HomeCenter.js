@@ -47,7 +47,7 @@ export default class HomeCenter extends Component {
 
 
         storage.load({
-            key: 'userInfo',
+            key: Config.STORAGE_LOGIN_INFO,
         }).then(ret => {
             // 如果找到数据，则在then方法中返回
             console.log(ret);
@@ -155,6 +155,7 @@ export default class HomeCenter extends Component {
 
         storage.load({
             key: Config.STORAGE_LOGIN_INFO,
+            autoSync:false,
         }).then(ret => { // 如果找到数据，则在then方法中返回
 
             navigator.push({

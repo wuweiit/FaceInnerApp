@@ -81,6 +81,7 @@ export default class UserInfo extends Component {
     }
 
 
+
     componentDidMount(){
         // 读取用户名
 
@@ -88,20 +89,19 @@ export default class UserInfo extends Component {
             key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
         }).then(ret => {
             // 如果找到数据，则在then方法中返回
-            var id = ret.userId;
             var data = {
                 menus: {
                     sectionID_1:[
-                        { id: "id",type:INPUT_TYPE_NONE, name: "ID编号", color:"#666666", icon: "bookmark", value: id },
+                        {key: "id",type:INPUT_TYPE_NONE, name: "ID编号", color:"#666666", icon: "bookmark", value: ret.id },
                     ],
                     sectionID_2:[
-                        {id: "nickname",type:INPUT_TYPE_TEXT, name: "昵称", color:"#850C70", icon: "user", value:  ret.nickname },
-                        {id: "integral",type:INPUT_TYPE_NONE, name: "积分", color:"#F78F1E", icon: "star", value:"0 分" },
+                        {key: "nickname",type:INPUT_TYPE_TEXT, name: "昵称", color:"#666666", icon: "user", value:  ret.nickname,maxlen:10 },
+                        {key: "integral",type:INPUT_TYPE_NONE, name: "积分", color:"#F78F1E", icon: "star", value: ret.points +" 分" },
                     ],
-                        sectionID_3:[
-                        {id: "sex",type:INPUT_TYPE_SEXS, name: "性别", color:"#666666", icon: "magnet", value:"男" },
-                        {id: "address",type:INPUT_TYPE_AREA, name: "地区", color:"#A6A6A6", icon: "map-marker", value: "四川 成都"},
-                        {id: "underwrite",type:INPUT_TYPE_TEXT, name: "个性签名", color:"#009AC8", icon: "edit", value: "我的地盘怎么会有你"},
+                    sectionID_3:[
+                        {key: "sex",type:INPUT_TYPE_SEXS, name: "性别", color:"#666666", icon: "magnet", value: ret.sexual },
+                        //{id: "address",type:INPUT_TYPE_AREA, name: "地区", color:"#A6A6A6", icon: "map-marker", value: "四川 成都"},
+                        {key: "underwrite",type:INPUT_TYPE_TEXT, name: "个性签名", color:"#666666", icon: "edit", value: ret.underwrite,maxlen:120},
                     ]
 
                 }
@@ -129,7 +129,7 @@ export default class UserInfo extends Component {
 
 
     _onGoMenu(that,rowData){
-        var navigator = this.props.navigator;
+        var navigator = that.props.navigator;
 
         if(INPUT_TYPE_TEXT == rowData.type ){// 文本编辑
             navigator.push({
@@ -139,9 +139,11 @@ export default class UserInfo extends Component {
                     navigator: navigator,
                     name: rowData.name,
                     value: rowData.value,
+                    maxlen: rowData.maxlen,
+                    field: rowData.key, // 字段
                 }
             });
-        }else if(INPUT_TYPE_SEXS == rowData.type){
+        }else if(INPUT_TYPE_SEXS == rowData.type){// 性别编辑器
             navigator.push({
                 title: 'UserEditSex',
                 component: UserEditSex,
@@ -149,6 +151,7 @@ export default class UserInfo extends Component {
                     navigator: navigator,
                     name: rowData.name,
                     value: rowData.value,
+                    field: rowData.key, // 字段
                 }
             });
         }
@@ -156,9 +159,40 @@ export default class UserInfo extends Component {
 
 
 
+
+    _quitLogin(){
+
+        // 删除单个数据
+        storage.remove({ key: Config.STORAGE_LOGIN_INFO });
+
+        storage.save({
+            key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
+            rawData: null
+        });
+
+
+
+        ToastAndroid.show('退出成功!', ToastAndroid.SHORT);
+
+
+
+        var navigator = this.props.navigator;
+        navigator.push({
+            title: 'HomeCenter',
+            component: HomeCenter,
+            params:{
+                navigator: navigator,
+            }
+        });
+
+    }
+
+
+
     renderRow(rowData, sectionID, rowID){
         return (
             <TouchableOpacity
+                key={'menu_item' + rowID}
                 style={[styles.button]}
                 activeOpacity={0.7}
                 onPress={()=>this._onGoMenu(this, rowData)}>
@@ -177,10 +211,8 @@ export default class UserInfo extends Component {
     }
 
 
-
-
-
     render() {
+
         return (
             <View style={{backgroundColor:'#efefef',position:'absolute',bottom:0,right:0,top:0,left:0}}>
                 <Header
@@ -199,35 +231,7 @@ export default class UserInfo extends Component {
                 <Button
                     style={styles.style_view_button}
                     title="退出登录"
-                    onPress={()=>{
-
-                        // 删除单个数据
-                        storage.remove({ key: Config.STORAGE_LOGIN_INFO });
-
-                        storage.save({
-                            key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
-                            rawData: null
-                        });
-
-
-
-                        ToastAndroid.show('退出成功!', ToastAndroid.SHORT);
-
-
-
-                        var navigator = this.props.navigator;
-                        navigator.push({
-                            title: 'HomeCenter',
-                            component: HomeCenter,
-                            params:{
-                                navigator: navigator,
-                            }
-                        });
-
-
-
-
-                    }}
+                    onPress={this._quitLogin.bind(this)}
                 />
 
 
@@ -239,7 +243,7 @@ export default class UserInfo extends Component {
 
 
     _renderSeparator(sectionID, rowID, adjacentRowHighlighted){
-        return (<View style={{borderBottomWidth:1,borderColor:'#efefef'}}></View>)
+        return (<View key={'Separator_'+ rowID} style={{borderBottomWidth:1,borderColor:'#efefef'}}></View>)
     }
 
 
@@ -249,11 +253,11 @@ export default class UserInfo extends Component {
         var view = null;
         if(sectionID != "sectionID_1") {
             view = (
-                <View style={{height:20}}></View>
+                <View key={'section_'+ sectionID} style={{height:20}}></View>
             )
         }else{
             view = (
-                <View style={{height:10}}></View>
+                <View key={'section_'+ sectionID} style={{height:10}}></View>
             )
         }
 

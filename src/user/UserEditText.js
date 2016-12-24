@@ -15,6 +15,7 @@ import {
     Navigator,
     Dimensions,
     DatePickerAndroid,
+    ToastAndroid,
 
 } from 'react-native';
 
@@ -32,8 +33,15 @@ import Location from  '../location/Location';
 import Button from  '../widgets/Button';
 import Header from  '../widgets/Header';
 
+import UserInfo from './UserInfo';
+
+import Config from '../conifg';
+import Ajax from  '../Ajax';
+
+
+
 /**
- * 意见反馈
+ * 文本编辑器
  * @author marker
  *
  */
@@ -51,6 +59,41 @@ export default class UserEditText extends Component {
 
 
 
+    _updateField(){
+        var navigator = this.props.navigator;
+        var url = host + '/api/user/update.do';
+        var data = {
+            field: this.props.field ,
+            value: this.state.value ,
+        }
+
+        storage.load({
+            key: Config.STORAGE_LOGIN_INFO,
+        }).then(ret => {
+            ret[data.field] = data.value;// 更新字段
+            storage.save({
+                key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
+                rawData: ret,
+            }).then(()=>{
+                // 替换前一个页面
+                navigator.replacePrevious({
+                    title: 'UserInfo',
+                    component: UserInfo,
+                    params:{
+                        navigator: navigator
+                    }
+                });
+                setTimeout(()=>{ navigator.pop(); },1);
+            });
+        });
+
+        Ajax.post(url, data, function (res) {
+            if (res.status == 0) {
+                ToastAndroid.show('修改成功!', ToastAndroid.SHORT);
+            }
+        });
+    }
+
 
     render() {
         return (
@@ -60,11 +103,7 @@ export default class UserEditText extends Component {
                     enableBackBtn={true}
                     title={this.props.name + '修改'}
                     rightBtnText="保存"
-                    rightBtnIconOnPress={()=>{
-
-
-                        this.props.navigator.pop();
-                    }}
+                    rightBtnIconOnPress={this._updateField.bind(this)}
                 />
                 <View>
                     <TextInput
@@ -75,7 +114,7 @@ export default class UserEditText extends Component {
                         }}
                         onChangeText={(content) =>{this.setState({value:content})} }
                         value={this.state.value}
-                        maxLength={50}
+                        maxLength={this.state.maxlen}
                         multiline = {true}
                         numberOfLines = {4}
                         underlineColorAndroid="transparent"

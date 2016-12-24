@@ -14,7 +14,13 @@ import {
 } from 'react-native';
 import Header from  '../widgets/Header';
 import Button from '../widgets/Button';
+
+
+import Login from  '../login/Login';
+
 import Config from '../conifg';
+
+import Ajax from  '../Ajax';
 
 
 
@@ -42,19 +48,32 @@ export default class Register extends Component {
 
 
     _onRegister(that){
-        console.log("register... ")
-
-        ToastAndroid.show('注册成功！', ToastAndroid.LONG);
-
-        setTimeout(()=>{
-
-            var navigator = that.props.navigator;
-            navigator.pop();
-
-        },3000);
+        var navigator = that.props.navigator;
 
 
+        var url = host + '/api/user/register.do';
+        var data = {
+            user: that.state.username ,
+            pass: that.state.password ,
+        }
 
+        Ajax.post(url, data, function (res) {
+            if (res.status == 0) {
+                ToastAndroid.show('注册成功！', ToastAndroid.SHORT);
+
+
+                navigator.push({
+                    title: 'Login',
+                    component: Login,
+                    params:{
+                        navigator: navigator
+                    }
+                });
+            }else{
+                ToastAndroid.show(res.msg, ToastAndroid.SHORT);
+
+            }
+        });
     }
 
     /**
@@ -96,11 +115,11 @@ export default class Register extends Component {
 
 
                 <View style={[styles.flexRow,{marginTop:10}]}>
-                    <Text style={styles.flexRowLabel}>手机号  </Text>
+                    <Text style={styles.flexRowLabel}>邮    箱  </Text>
                     <TextInput
                         style={styles.flexRowColunm}
                         underlineColorAndroid="transparent"
-                        placeholder={'请输入手机号'}
+                        placeholder={'请输入电子邮箱'}
                         onChangeText={(text) => this.setState({username:text})}
                     ></TextInput>
                 </View>
@@ -114,37 +133,38 @@ export default class Register extends Component {
                         onChangeText={(text) => this.setState({password:text})}
                     ></TextInput>
                 </View>
-                <View style={[styles.flexRow,{marginTop:10}]}>
-                    <Text style={styles.flexRowLabel}>验证码  </Text>
-                    <View style={[styles.flexRow,{flex:1.3,marginRight:10,padding:0,}]}>
-                        <TextInput
-                            style={[styles.flexRowColunm,{flex:0.5}]}
-                            underlineColorAndroid="transparent"
-                            placeholder={''}
-                            onChangeText={(text) => this.setState({code:text})}
-                        ></TextInput>
-                        <Button
-                            style={{flex:0.5}}
-                            enable={this.state.enableBtnCode}
-                            title={this.state.btnCode}
-                            onPress={()=>this._onGetCode(this)}
-                        ></Button>
-                    </View>
-                </View>
-
                 <Button
                     onPress={()=>this._onRegister(this)}
                     style={styles.style_view_button}
                     title="注 册"
                 >
                 </Button>
-                <ActivityIndicator
-                    style={[  {backgroundColor: '#eeeeee'}]}
-                />
             </View>
         )
     }
 }
+
+
+/*
+ <View style={[styles.flexRow,{marginTop:10}]}>
+ <Text style={styles.flexRowLabel}>验证码  </Text>
+ <View style={[styles.flexRow,{flex:1.3,marginRight:10,padding:0,}]}>
+ <TextInput
+ style={[styles.flexRowColunm,{flex:0.5}]}
+ underlineColorAndroid="transparent"
+ placeholder={''}
+ onChangeText={(text) => this.setState({code:text})}
+ ></TextInput>
+ <Button
+ style={{flex:0.5}}
+ enable={this.state.enableBtnCode}
+ title={this.state.btnCode}
+ onPress={()=>this._onGetCode(this)}
+ ></Button>
+ </View>
+ </View>*/
+
+
 
 const styles = StyleSheet.create({
 

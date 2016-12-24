@@ -67,12 +67,7 @@ export default class Login extends Component {
                 // 保存Token
                 storage.save({
                     key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
-                    rawData: {
-                        token: res.data.token,
-                        userId: res.data.id,
-                        nickname: res.data.nickname,
-                        name: res.data.name,
-                    }
+                    rawData: res.data
                 });
 
                 navigator.push({

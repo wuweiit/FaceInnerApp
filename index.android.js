@@ -30,7 +30,9 @@ class HelloWorldApp extends Component{
                 initialRoute={{ name: defaultName, component: defaultComponent }}
                 renderScene={(route, navigator) =>{
                     let Component = route.component;
-                    return <Component {...route.params} navigator={navigator} />
+                    return <Component {...route.params}
+                        index={route.index}
+                        navigator={navigator} />
 
                     }
                 }>

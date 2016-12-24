@@ -18,12 +18,13 @@ var {height, width} = Dimensions.get('window');
 
 
 
-host = "http://192.168.0.106:8085";
+var host = "http://192.168.0.106:8085";
 if(__DEV__){ // debug模式
     host = "http://192.168.0.106:8085";
 }else{ // release模式
     host = "http://api.joggle.cn";
 }
+global.host = host;
 
 
 var storage = new Storage({

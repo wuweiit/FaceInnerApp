@@ -78,6 +78,10 @@ export default class UserCenter extends Component {
 
 
     _onPullRelease(resolve) {
+
+        this.componentDidMount();
+
+
         setTimeout(()=>{
             resolve();
         },10);
@@ -120,7 +124,7 @@ export default class UserCenter extends Component {
                 <TouchableOpacity style={styles.userInfo}
                                   activeOpacity={0.8}
                                   onPress={this._onPressUserInfo.bind(this)}>
-                    <Image style={styles.userhead} source={require('../../img/ac.png')}></Image>
+                    <Image style={styles.userhead} source={require('../../img/default_head.jpg')}></Image>
                     <View style={styles.username}>
                         <Text style={styles.usernameText}>{this.state.nickname}</Text>
                     </View>
