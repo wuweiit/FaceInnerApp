@@ -51,6 +51,17 @@ export default class Register extends Component {
         var navigator = that.props.navigator;
 
 
+        if(that.state.username  == null || "" == that.state.username){
+            ToastAndroid.show('请输入用户名!', ToastAndroid.SHORT);
+            return;
+        }
+        if(that.state.password == null || "" == that.state.password){
+            ToastAndroid.show('请输入密码!', ToastAndroid.SHORT);
+            return;
+        }
+
+
+
         var url = host + '/api/user/register.do';
         var data = {
             user: that.state.username ,

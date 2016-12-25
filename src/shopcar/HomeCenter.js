@@ -113,7 +113,7 @@ export default class HomeCenter extends Component {
     componentDidMount(){
        // 加载网路数据
 
-       // this.__fetchData(this,function(){ });
+        this.__fetchData(this,function(){ });
 
 
 

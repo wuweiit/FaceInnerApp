@@ -118,16 +118,15 @@ var Ajax =  {
             {
                 method: 'GET',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                     'time': time,
                 }
             }
         )
-            .then((response) => response.json())
-            .then((res)=>{
-                success(res);
-            });
+        .then((response) => response.json())
+        .then((res)=>{
+            success(res);
+        });
 
     },
 

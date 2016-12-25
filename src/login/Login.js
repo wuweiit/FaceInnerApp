@@ -88,7 +88,7 @@ export default class Login extends Component {
 
 
         // 关闭键盘
-        Keyboard.dismiss();
+        //Keyboard.dismiss();
 
     }
 

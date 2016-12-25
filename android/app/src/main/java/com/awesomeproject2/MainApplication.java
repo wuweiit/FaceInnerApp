@@ -34,6 +34,10 @@ public class MainApplication extends Application implements ReactApplication {
       return BuildConfig.DEBUG;
     }
 
+      @Override
+      protected String getJSBundleFile() {
+          return CodePush.getJSBundleFile();
+      }
 
     @Override
     protected List<ReactPackage> getPackages() {
