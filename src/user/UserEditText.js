@@ -109,12 +109,14 @@ export default class UserEditText extends Component {
                     <TextInput
                         style={{height: 45, borderColor: '#dedede',backgroundColor:'#ffffff',
                         borderWidth: 1, marginTop:5,
+                        borderLeftWidth:0,
+                        borderRightWidth:0,
                         paddingLeft:20,
                         paddingRight:20,
                         }}
                         onChangeText={(content) =>{this.setState({value:content})} }
                         value={this.state.value}
-                        maxLength={this.state.maxlen}
+                        maxLength={this.props.maxlen}
                         multiline = {true}
                         numberOfLines = {4}
                         underlineColorAndroid="transparent"

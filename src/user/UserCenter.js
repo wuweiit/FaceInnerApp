@@ -173,20 +173,16 @@ export default class UserCenter extends Component {
 
                         }}
                         title="我的"
-                        rightBtnIcon="cog"
-                        rightBtnIconOnPress={()=>{
-
-                    }}
                     />
                 ):(// 非登录过来的可返回
                     <Header
                         navigator={this.props.navigator}
                         enableBackBtn={true}
                         title="我的"
-                        rightBtnIcon="cog"
-                        rightBtnIconOnPress={()=>{
-
-                    }}
+                    //    rightBtnIcon="cog"
+                    //    rightBtnIconOnPress={()=>{
+                    //
+                    //}}
                     />
                 )}
 

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import com.oblador.vectoricons.VectorIconsPackage;
 import org.lovebing.reactnative.baidumap.BaiduMapPackage;
-import com.awesomeproject2.EncryptPackage;
 
 
 
@@ -46,7 +45,6 @@ public class MainApplication extends Application implements ReactApplication {
 
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-              new EncryptPackage(),
               new VectorIconsPackage(),
               new BaiduMapPackage(getApplicationContext()),
               new CodePush(codePushSgin , getApplicationContext() , getUseDeveloperSupport())

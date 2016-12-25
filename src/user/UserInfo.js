@@ -243,7 +243,7 @@ export default class UserInfo extends Component {
 
 
     _renderSeparator(sectionID, rowID, adjacentRowHighlighted){
-        return (<View key={'Separator_'+ rowID} style={{borderBottomWidth:1,borderColor:'#efefef'}}></View>)
+        return (<View key={sectionID+':Separator_'+ rowID} style={{borderBottomWidth:1,borderColor:'#efefef'}}></View>)
     }
 
 
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
     style_view_button:{
         height:45,
         borderRadius:0,
-        backgroundColor:'#cccccc',
+        backgroundColor:'#d00d3e',
     },
 
 

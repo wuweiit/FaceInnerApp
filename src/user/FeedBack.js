@@ -50,13 +50,20 @@ export default class FeedBack extends Component {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-        this.state = {
-            content: ''
-        };
+        this.state = { };
 
     }
 
 
+    componentDidMount() {
+        // 读取用户信息
+        var that = this;
+        storage.load({
+            key: Config.STORAGE_LOGIN_INFO,  // 注意:请不要在key中使用_下划线符号!
+        }).then(ret => {
+            that.setState(ret);
+        });
+    }
 
 
     render() {
@@ -100,6 +107,8 @@ export default class FeedBack extends Component {
         var url = host + '/api/feedback/commit.do';
         var data = {
             content: that.state.content ,
+            userId: that.state.id,
+            nickname: that.state.nickname,
         }
 
         Ajax.post(url, data, function (res) {
