@@ -154,7 +154,11 @@ export default class HomeCenter extends Component {
 
         storage.load({
             key: Config.STORAGE_LOGIN_INFO,
-            autoSync:false,
+            autoSync:true,
+            // syncInBackground(默认为true)意味着如果数据过期，
+            // 在调用sync方法的同时先返回已经过期的数据。
+            // 设置为false的话，则始终强制返回sync方法提供的最新数据(当然会需要更多等待时间)。
+            syncInBackground: true
         }).then(ret => { // 如果找到数据，则在then方法中返回
 
             navigator.push({
