@@ -117,46 +117,11 @@ export default class UserCenter extends Component {
 
 
 
-    renderRow(rowData, sectionID, rowID){
-        return (
-            <View>
-                <Image style={styles.banner} source={require('../../img/banner.png')}></Image>
-                <TouchableOpacity style={styles.userInfo}
-                                  activeOpacity={0.8}
-                                  onPress={this._onPressUserInfo.bind(this)}>
-                    <Image style={styles.userhead} source={require('../../img/default_head.jpg')}></Image>
-                    <View style={styles.username}>
-                        <Text style={styles.usernameText}>{this.state.nickname}</Text>
-                    </View>
-                </TouchableOpacity>
-
-
-
-                <TouchableOpacity style={[styles.button,{marginTop: 30}]}
-                    onPress={this._onFeedBack.bind(this)}
-                    >
-                    <View style={styles.button_icon}>
-                        <Icon name="user" size={20} color={'#cccccc'} />
-                    </View>
-                    <View style={styles.button_text}>
-                        <Text>意见反馈</Text>
-                    </View>
-                    <View style={styles.button_right}>
-                        <Icon name="chevron-right" size={20} color={'#cccccc'} />
-                    </View>
-                </TouchableOpacity>
-
-            </View>
-        )
-    }
-
-
-
 
 
     render() {
         return (
-            <View style={{backgroundColor:'#efefef'}}>
+            <View style={{backgroundColor:'#efefef',position:'absolute',bottom:0,right:0,top:0,left:0}}>
                 {this.props.from == 'Login'?(// 登录过来的
                     <Header
                         navigator={this.props.navigator}
@@ -187,13 +152,34 @@ export default class UserCenter extends Component {
                 )}
 
 
+                <View>
+                    <Image style={styles.banner} source={require('../../img/banner.png')}></Image>
+                    <TouchableOpacity style={styles.userInfo}
+                                      activeOpacity={0.8}
+                                      onPress={this._onPressUserInfo.bind(this)}>
+                        <Image style={styles.userhead} source={require('../../img/default_head.jpg')}></Image>
+                        <View style={styles.username}>
+                            <Text style={styles.usernameText}>{this.state.nickname}</Text>
+                        </View>
+                    </TouchableOpacity>
 
-                <PullList
-                    enableEmptySections={true}
-                    dataSource={this.ds.cloneWithRows(this.state.movies)}
-                    renderRow={this.renderRow.bind(this)}
-                    onPullRelease={this._onPullRelease.bind(this)}
-                />
+
+
+                    <TouchableOpacity style={[styles.button,{marginTop: 30}]}
+                                      onPress={this._onFeedBack.bind(this)}
+                    >
+                        <View style={styles.button_icon}>
+                            <Icon name="user" size={20} color={'#cccccc'} />
+                        </View>
+                        <View style={styles.button_text}>
+                            <Text>意见反馈</Text>
+                        </View>
+                        <View style={styles.button_right}>
+                            <Icon name="chevron-right" size={20} color={'#cccccc'} />
+                        </View>
+                    </TouchableOpacity>
+
+                </View>
             </View>
         )
     }

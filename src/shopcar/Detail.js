@@ -33,15 +33,15 @@ export default class Detail extends Component {
 
     constructor(props) {
         super(props);
+        var id = props.aid;
         this.state = {
-            url:""
+            url: host + '/app/taolu/get.do?id='+id
         }
 
     }
     componentDidMount(){
-        // 加载网路数据
-        var id = this.props.aid;
-        this.setState({url:host + '/app/taolu/get.do?id='+id});
+
+
 
     }
 

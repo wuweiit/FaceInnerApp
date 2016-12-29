@@ -24,6 +24,8 @@ if(__DEV__){ // debug模式
 }else{ // release模式
     host = "http://api.joggle.cn";
 }
+
+host = "http://api.joggle.cn";
 global.host = host;
 
 
